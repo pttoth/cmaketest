@@ -1,8 +1,13 @@
 #--------------------------------------------------
 #   syntax samples
 #--------------------------------------------------
-#default include directories
+#default include directories (legacy, cmake 2.8.10 or older)
 #   include_directories(<directory> [<directory> ...])
+
+#default include directories
+#!!! add this AFTER specifying the target !!!
+#   target_include_directories(<target> PRIVATE <directory> [<directory> ...])
+
 
 #variable reference syntax:
 #   ${<variable>}
@@ -44,13 +49,13 @@
 #         <PROJECT-NAME>_BINARY_DIR
 
 #create executable as target
-#   add_executable(<executable> <sourcefile> [<sourcefile> ...])
+#   add_executable(<executable> <sourcefile> [<sourcefile> ...] [<header> ...])
 
 #create lib as target
-#   add_library(<library> <sourcefile> [<sourcefile> ...])
+#   add_library(<library> <sourcefile> [<sourcefile> ...] [<header> ...])
 
 #create DLL as target
-#   add_library(<library> SHARED <sourcefile> [<sourcefile> ...])
+#   add_library(<library> SHARED <sourcefile> [<sourcefile> ...] [<header> ...])
 
 #link lib-s and DLL-s to executable
 #   target_link_libraries(<target> <library> [<library> ...])
@@ -80,11 +85,21 @@
 #CMAKE_BUILD_TYPE
 
 #-----
-#unknown
+#fill out later
 #-----
 
-#look this up later...
+# include hierarchies
+#   visibility
+#     PUBLIC | PRIVATE | INTERFACE
+#     relevant, when targets refer eachother as dependencies
+
+#   interface includes
+#     interface_include_directories( ... )
+
+# install target
 #   install(TARGETS <target>)
+
+
 
 #--------------------------------------------------
 #   Project
@@ -101,12 +116,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/library)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+add_library(applib src/testclass.cpp include/testclass.h)
+add_library(applib2 SHARED src/testclass.cpp include/testclass.h)
 
-add_library(applib src/testclass.cpp)
-add_library(applib2 SHARED src/testclass.cpp)
 #add_executable(cmaketest src/main.cpp)
-add_executable(cmaketest src/main.cpp src/testclass.cpp)
+add_executable(cmaketest src/main.cpp src/testclass.cpp include/testclass.h)
+target_include_directories(cmaketest PRIVATE ${PROJECT_SOURCE_DIR}/include)
 #target_link_libraries(cmaketest applib)
 
 #cmake_minimum_required(VERSION 2.4)
