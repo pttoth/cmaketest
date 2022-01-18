@@ -23,9 +23,9 @@
 
 #   PROJECT_SOURCE_DIR
 #   CMAKE_BINARY_DIR
-#   CMAKE_RUNTIME_OUTPUT_DIRECTORY  # for targets (executables and DLL-s)
+#   CMAKE_RUNTIME_OUTPUT_DIRECTORY  # for executable targets
 #   CMAKE_ARCHIVE_OUTPUT_DIRECTORY  # for .a files (static libs)
-#   CMAKE_LIBRARY_OUTPUT_DIRECTORY  # ?????
+#   CMAKE_LIBRARY_OUTPUT_DIRECTORY  # for .so files (shared libraries / DLL-s)
 
 #   EXECUTABLE_OUTPUT_PATH          # !!! this is old, don't use !!!
 
